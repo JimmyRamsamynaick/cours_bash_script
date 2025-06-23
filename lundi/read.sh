@@ -12,3 +12,5 @@ echo "entrer votre age :"
 read age
 
 echo "Bonjour, vous vous appelez $nom et vous avez $age ans."
+
+read -s -p "Entrer votre mot de passe : " motdepasse
