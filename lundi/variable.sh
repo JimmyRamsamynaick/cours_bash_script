@@ -9,3 +9,5 @@ age=20
 
 echo $nom
 echo $age
+
+echo "Bonjour, je m'appelle $nom et j'ai $age ans."
