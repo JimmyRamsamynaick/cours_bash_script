@@ -24,5 +24,7 @@ Le dépôt est organisé par séances ou thématiques. Chaque dossier ou fichier
 git clone git@github.com:JimmyRamsamynaick/cours_bash_script.git
 ```
 📅 Cours suivi en 2025 chez Expernet
+
 💻 Formation : Scripting Bash
+
 👤 Auteur : Jimmy RAMSAMYNAÏCK
