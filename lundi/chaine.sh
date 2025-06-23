@@ -28,3 +28,12 @@ premiereLettrePrenom=${prenom:0:1} #extrait la première lettre du prénom
 echo "Initiales : ${nomPrenom:0:1}${nomPrenom:13:1}" #affiche les initiales du nom et du prénom
 
 echo "Initiales : ${premiereLettreNom}${premiereLettrePrenom}" #affiche les initiales du nom et du prénom
+
+#rechercher et remplacer
+echo $nomPrenom
+
+echo ${nomPrenom/a/i}
+
+#rechercher et remplacer tout les a par i
+
+echo ${nomPrenom//[aA]/i}
