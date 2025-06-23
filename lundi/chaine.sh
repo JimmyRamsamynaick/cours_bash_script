@@ -6,10 +6,13 @@
 # Date : $(date)
 
 nom="RAMSAMYNAÏCK"
-prenom="Jimmy"
+prenom="JIMMY"
+prenom="${prenom,,}" # met tout le prénom en minuscule
+prenom="${prenom^}" # met la première lettre en majuscule
+nom=${nom,,} #met le nom en minuscule
 nomPrenom="$nom $prenom " #concaténation du nom et du prénom
 
-echo "l'utilisateur s'appelle $nomPrenom, cela fait ${#nomPrenom}" #affiche le nom et le prénom
+echo "l'utilisateur s'appelle ${nomPrenom}, cela fait ${#nomPrenom}" #affiche le nom et le prénom
 
 #extraction de chaine
 echo ${nomPrenom:0:1} #affiche la première lettre de la chaine nom et prénom
