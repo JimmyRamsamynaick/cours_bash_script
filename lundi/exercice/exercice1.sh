@@ -8,26 +8,26 @@
 #information du script
 echo "=== INFORMATION SCRIPT ==="
 echo "Nom du script : $0"
-echo "Nombre de paramètres reçus : $#"
+echo "Nombre de parametres reçus : $#"
 
-echo "Note : Ce script fonctionne mieux avec des paramètres."
+echo "Note : Ce script fonctionne mieux avec des parametres."
 echo "Usage : ./param.sh <param1> <param2> <param3> ..."
 echo "Exemple : ./param.sh hello world test"
 
-echo "=== PARAMÈTRES INDIVIDUELS ==="
-echo "Premier paramètre ($1) : $1"
-echo "Deuxième paramètre ($2) : $2"
-echo "Troisième paramètre ($3) : $3"
+echo "=== PARAMETRES INDIVIDUELS ==="
+echo "Premier parametre ($1) : $1"
+echo "Deuxieme parametre ($2) : $2"
+echo "Troisieme parametre ($3) : $3"
 
-echo "=== TOUS LES PARAMÈTRES ==="
+echo "=== TOUS LES PARAMETRES ==="
 echo "Avec \$@: $@"
 echo "Avec \$*: $*"
 
-echo "=== PARAMÈTRES UN PAR UN ==="
-echo "Paramètre 1 : $1"
-echo "Paramètre 2 : $2"
-echo "Paramètre 3 : $3"
-echo "Paramètre 4 : $4"
-echo "Paramètre 5 : $5"
+echo "=== PARAMETRES UN PAR UN ==="
+echo "Parametre 1 : $1"
+echo "Parametre 2 : $2"
+echo "Parametre 3 : $3"
+echo "Parametre 4 : $4"
+echo "Parametre 5 : $5"
 
 
