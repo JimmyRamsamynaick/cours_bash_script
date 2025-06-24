@@ -2,7 +2,7 @@
 # script
 # Utilisation ./condition1.sh
 # Script : condition1.sh
-#Auteur : Jimmy RAMSAMYNAÏCK
+# Auteur : Jimmy RAMSAMYNAÏCK
 # Date : $(date)
 
 #Test de condition numérique
