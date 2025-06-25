@@ -9,17 +9,31 @@
 #remplacer les variables dans le template
 #sauvegarder la configuration generee
 #faire un .html pour afficher la configuration generee
+#generer un fichier .conf dans /etc/apache2/sites-available/
 
-# Fonction pour générer la configuration Apache
+
+
+# Exécuter le script
 generer_conf_apache() {
+    local nom_site port repertoire
     read -p "Nom du site : " nom_site
     read -p "Port (par défaut 80) : " port
     port=${port:-80}  # Utiliser 80 par défaut si vide
     read -p "Répertoire racine (par défaut /var/www/$nom_site) : " repertoire
-    repertoire=${repertoire:-/var/www/$nom_site}  # Utiliser le répertoire par défaut si vide
+    repertoire=${repertoire:-/var/www/html/$nom_site}  # Utiliser le répertoire par défaut si vide
 
-    # Créer le répertoire si nécessaire
+    # Créer le répertoire avec les permissions appropriées
+    sudo chown -R www-data:www-data "$repertoire"
+    sudo chmod -R 755 "$repertoire"
+    # Créer le répertoire s'il n'existe pas
+    echo "Création du répertoire $repertoire..."
     mkdir -p "$repertoire"
+    # Créer le répertoire s'il n'existe pas
+    if [ ! -d "$repertoire" ]; then
+        echo "Le répertoire $repertoire n'existe pas, création en cours..."
+    else
+        echo "Le répertoire $repertoire existe déjà."
+    fi
 
     # Générer la configuration Apache
     cat <<EOF > "/etc/apache2/sites-available/$nom_site.conf"
@@ -36,7 +50,6 @@ generer_conf_apache() {
     ErrorLog \${APACHE_LOG_DIR}/$nom_site-error.log
     CustomLog \${APACHE_LOG_DIR}/$nom_site-access.log combined
 </VirtualHost>
-
 EOF
 
     # Activer le site
@@ -46,14 +59,22 @@ EOF
     systemctl restart apache2
 
     echo "Configuration générée et site $nom_site activé sur le port $port."
+
+    # Afficher la configuration dans un fichier HTML
+    afficher_conf_html "$nom_site" "$port" "$repertoire"
 }
+
 # Fonction pour afficher la configuration générée dans un fichier HTML
 afficher_conf_html() {
     local nom_site="$1"
     local port="$2"
     local repertoire="$3"
 
-    cat <<EOF > "/var/www/$nom_site/configuration.html"
+    # Créer le répertoire pour le fichier HTML si nécessaire
+    mkdir -p "/var/www/html/$nom_site"
+    # Générer le fichier HTML
+    cat <<EOF > "/var/www/html/$nom_site/configuration.html"
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -117,5 +138,5 @@ while true; do
     esac
 done
 
-# Exécution de la fonction principale
+# Exécuter le script
 generer_conf_apache
