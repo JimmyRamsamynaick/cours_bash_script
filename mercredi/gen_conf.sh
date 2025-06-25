@@ -7,7 +7,7 @@
 #demander : nom du site, port, repertoire
 #utiliser here document pour le template
 #remplacer les variables dans le template
-#sauvegarder la coniguration generee
+#sauvegarder la configuration generee
 
 # Fonction pour générer la configuration Apache
 generer_conf_apache() {
