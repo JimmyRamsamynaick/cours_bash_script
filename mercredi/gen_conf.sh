@@ -8,6 +8,7 @@
 #utiliser here document pour le template
 #remplacer les variables dans le template
 #sauvegarder la configuration generee
+#faire un .html pour afficher la configuration generee
 
 # Fonction pour générer la configuration Apache
 generer_conf_apache() {
@@ -45,6 +46,50 @@ EOF
     systemctl restart apache2
 
     echo "Configuration générée et site $nom_site activé sur le port $port."
+}
+# Fonction pour afficher la configuration générée dans un fichier HTML
+afficher_conf_html() {
+    local nom_site="$1"
+    local port="$2"
+    local repertoire="$3"
+
+    cat <<EOF > "/var/www/$nom_site/configuration.html"
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuration Apache - $nom_site</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        h1 { color: #333; }
+        pre { background-color: #f4f4f4; padding: 10px; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>Configuration Apache pour $nom_site</h1>
+    <p>Port : $port</p>
+    <p>Répertoire racine : $repertoire</p>
+    <pre>
+<VirtualHost *:$port>
+    ServerName $nom_site
+    DocumentRoot $repertoire
+
+    <Directory "$repertoire">
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+    ErrorLog \${APACHE_LOG_DIR}/$nom_site-error.log
+    CustomLog \${APACHE_LOG_DIR}/$nom_site-access.log combined
+</VirtualHost>
+    </pre>
+</body>
+</html>
+EOF
+
+    echo "Configuration affichée dans /var/www/$nom_site/configuration.html"
 }
 
 # Fonction pour afficher le menu
