@@ -4,13 +4,9 @@
 # Date : $(date)
 
 # ================================================
-# SECTION : INSTALLATION DES PAQUETS REQUIS (manuel)
-# À exécuter une seule fois avec les droits root :
+# INSTALLATION DES PAQUETS REQUIS (à exécuter une fois)
 sudo apt update
 sudo apt install -y pandoc texlive-latex-recommended texlive-fonts-recommended texlive-latex-extra
-# sudo apt install -y mutt
-# sudo apt install -y postfix
-# Pour configurer postfix : sélectionner "site Internet" et valider avec domaine local
 # ================================================
 
 START=$(date +%s)
@@ -27,7 +23,7 @@ echo "Génération du rapport système en cours..."
 DEST_DIR="/tmp/rapports"
 mkdir -p "$DEST_DIR"
 
-# Fichiers
+# Noms de fichiers
 DATE_TAG=$(date +%Y%m%d_%H%M%S)
 REPORT_FILE="$DEST_DIR/rapport_systeme_${DATE_TAG}.txt"
 PDF_FILE="$DEST_DIR/rapport_systeme_${DATE_TAG}.pdf"
@@ -35,12 +31,13 @@ PDF_FILE="$DEST_DIR/rapport_systeme_${DATE_TAG}.pdf"
 touch "$REPORT_FILE" || { echo "Erreur : impossible de créer le fichier de rapport."; exit 1; }
 echo "Le rapport sera enregistré dans : $REPORT_FILE"
 
-# ========== Collecte des informations système ==========
+# ==================== COLLECTE DES INFORMATIONS ====================
 {
     echo "===== INFORMATIONS SYSTÈME ====="
     echo "OS : $(uname -s)"
     echo "Version : $(uname -r)"
     echo "Architecture : $(uname -m)"
+    echo "Uptime : $(uptime -p)"
     echo ""
 
     echo "===== UTILISATION CPU ====="
@@ -67,25 +64,26 @@ echo "Le rapport sera enregistré dans : $REPORT_FILE"
     echo ""
 
     echo "===== UTILISATEURS ET PROCESSUS ====="
+    echo "Utilisateurs connectés :"
     who
     echo ""
+    echo "Groupes d'utilisateurs :"
     cut -d: -f1 /etc/group
     echo ""
+    echo "Top 10 processus mémoire :"
     ps aux --sort=-%mem | head -n 10
 } >> "$REPORT_FILE"
 
-# ========== Conversion en PDF ==========
+# ==================== CONVERSION EN PDF ====================
 if command -v pandoc >/dev/null && command -v pdflatex >/dev/null; then
     pandoc "$REPORT_FILE" -o "$PDF_FILE"
     if [ $? -eq 0 ]; then
         echo "Conversion en PDF réussie : $PDF_FILE"
     else
         echo "Erreur lors de la conversion en PDF."
-        PDF_FILE=""
     fi
 else
     echo "Pandoc ou pdflatex manquant. Conversion PDF non effectuée."
-    PDF_FILE=""
 fi
 
 END=$(date +%s)
